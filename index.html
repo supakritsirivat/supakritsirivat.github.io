@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>your name — portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-deep:   #0E1520;
+    --navy:        #131C29;
+    --navy-panel:  #1B2534;
+    --mist:        #6E8299;
+    --mist-soft:   #9CAAB9;
+    --fog-line:    #2A3646;
+    --ink:         #EAEFF3;
+    --ink-soft:    #AEBAC7;
+    --red:         #C4453A;
+    --red-soft:    #E0736A;
+    --amber:       #E9B968;
+    --grass:       #3B4A3F;
+  }
+  [data-mode="dawn"]{
+    --navy-deep:   #1B2233;
+    --navy:        #232B3E;
+    --navy-panel:  #2B3448;
+    --amber:       #F0C57E;
+    --ink:         #FBF3E6;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--navy-deep);
+    color:var(--ink);
+    font-family:'Manrope', sans-serif;
+    transition: background .5s ease, color .5s ease;
+  }
+  h1,h2,h3{ font-family:'Cormorant Garamond', serif; font-weight:600; margin:0; letter-spacing:.01em; }
+  a{ color:var(--red-soft); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+
+  /* ---------- rain overlay ---------- */
+  .rain{
+    position:fixed; inset:0; pointer-events:none; z-index:5; opacity:.35; mix-blend-mode:screen;
+    background-image: repeating-linear-gradient(100deg, transparent 0 18px, rgba(220,230,240,0.06) 18px 19px, transparent 19px 40px);
+    animation: rainFall 0.6s linear infinite;
+  }
+  @keyframes rainFall{ from{ background-position:0 0; } to{ background-position:-40px 60px; } }
+
+  /* ---------- dock nav ---------- */
+  .dock{
+    position:fixed; left:26px; top:50%; transform:translateY(-50%); z-index:50;
+    display:flex; flex-direction:column; gap:8px;
+    padding:10px; background:rgba(19,28,41,0.72); backdrop-filter:blur(10px);
+    border:1px solid var(--fog-line); border-radius:16px;
+  }
+  .dock button{
+    all:unset; cursor:pointer; width:42px; height:42px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:10px; font-size:18px; color:var(--mist-soft);
+    transition:background .2s ease, color .2s ease, box-shadow .2s ease;
+  }
+  .dock button:hover{ background:var(--navy-panel); color:var(--amber); box-shadow:0 0 14px rgba(233,185,104,.35); }
+  .dock button:focus-visible{ outline:1px solid var(--red-soft); }
+  .dock .divider{ height:1px; background:var(--fog-line); margin:2px 6px; }
+
+  .mode-toggle{
+    position:fixed; top:24px; right:26px; z-index:50;
+    all:unset; cursor:pointer;
+    background:rgba(19,28,41,0.72); backdrop-filter:blur(10px);
+    border:1px solid var(--fog-line); color:var(--ink-soft);
+    border-radius:999px; padding:9px 18px;
+    font-family:'Manrope',sans-serif; font-weight:600; font-size:12.5px; letter-spacing:.03em;
+  }
+  .mode-toggle:hover{ color:var(--amber); border-color:var(--amber); }
+
+  main{ padding-left:96px; }
+  section{ padding:110px 8vw; max-width:1020px; margin:0 auto; scroll-margin-top:40px; position:relative; z-index:2; }
+
+  /* ---------- hero ---------- */
+  #hero{
+    min-height:100vh; padding-left:8vw; padding-right:8vw; max-width:none;
+    display:flex; flex-direction:column; justify-content:flex-end;
+    position:relative; overflow:hidden;
+  }
+  .hero-bg{
+    position:absolute; inset:0;
+    background-image:url('identity.jpg');
+    background-size:cover; background-position:center 70%;
+    filter:saturate(.9) brightness(.85);
+  }
+  .hero-scrim{
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(14,21,32,.15) 0%, rgba(14,21,32,.55) 55%, var(--navy-deep) 96%);
+  }
+  .hero-content{ position:relative; z-index:2; padding-bottom:100px; max-width:680px; }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:12.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--amber);
+    margin-bottom:22px;
+  }
+  .eyebrow::before{ content:""; width:22px; height:1px; background:var(--amber); }
+  #hero h1{
+    font-size:clamp(42px, 6.4vw, 74px); line-height:1.06; color:var(--ink);
+  }
+  #hero h1 em{ font-style:italic; color:var(--red-soft); }
+  #hero p.lede{
+    margin-top:20px; font-size:18px; color:var(--ink-soft); max-width:480px; line-height:1.65;
+  }
+  .hero-actions{ margin-top:36px; display:flex; gap:14px; flex-wrap:wrap; }
+  .btn{
+    font-family:'Manrope',sans-serif; font-weight:700; font-size:13.5px; letter-spacing:.03em;
+    padding:14px 26px; border-radius:2px; border:1px solid var(--ink);
+    cursor:pointer; text-transform:uppercase; transition:all .2s ease;
+    background:transparent; color:var(--ink);
+  }
+  .btn-solid{ background:var(--red); border-color:var(--red); color:#fff; }
+  .btn-solid:hover{ background:var(--red-soft); border-color:var(--red-soft); box-shadow:0 0 22px rgba(196,69,58,.4); }
+  .btn-ghost:hover{ border-color:var(--amber); color:var(--amber); }
+
+  /* ---------- section label ---------- */
+  .section-label{ display:flex; align-items:baseline; gap:16px; margin-bottom:52px; }
+  .section-label .num{ font-family:'Cormorant Garamond',serif; font-size:15px; color:var(--red-soft); letter-spacing:.06em; }
+  .section-label h2{ font-size:34px; color:var(--ink); }
+  .section-label .rule{ flex:1; height:1px; background:var(--fog-line); }
+
+  /* ---------- about ---------- */
+  #about .grid{ display:grid; grid-template-columns: .95fr 1.3fr; gap:56px; align-items:start; }
+  @media (max-width:760px){ #about .grid{ grid-template-columns:1fr; } }
+  .portrait{
+    aspect-ratio:3/4; border-radius:2px; overflow:hidden; position:relative;
+    background:linear-gradient(160deg, var(--navy-panel), var(--navy));
+    border:1px solid var(--fog-line);
+    display:flex; align-items:flex-end; padding:20px;
+  }
+  .portrait::before{
+    content:""; position:absolute; inset:0; opacity:.5;
+    background-image:url('identity.jpg'); background-size:cover; background-position:20% 55%;
+    filter:grayscale(.15) brightness(.7);
+  }
+  .portrait .cap{ position:relative; z-index:1; font-size:12.5px; letter-spacing:.08em; color:var(--ink-soft); text-transform:uppercase; }
+  #about .copy p{ font-size:16.5px; line-height:1.85; color:var(--ink-soft); }
+  #about .copy p + p{ margin-top:16px; }
+  .fact-list{ list-style:none; padding:0; margin:28px 0 0; display:grid; gap:12px; border-top:1px solid var(--fog-line); padding-top:24px; }
+  .fact-list li{ font-size:14.5px; color:var(--ink-soft); display:flex; gap:10px; }
+  .fact-list b{ color:var(--ink); font-weight:700; min-width:110px; }
+
+  /* ---------- work ---------- */
+  .work-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:2px; background:var(--fog-line); border:1px solid var(--fog-line); }
+  @media (max-width:760px){ .work-grid{ grid-template-columns:1fr; } }
+  .work-card{ background:var(--navy); padding:34px; transition:background .2s ease; position:relative; }
+  .work-card:hover{ background:var(--navy-panel); }
+  .work-card::before{
+    content:""; position:absolute; left:0; top:0; bottom:0; width:2px; background:transparent; transition:background .2s ease;
+  }
+  .work-card:hover::before{ background:var(--red); }
+  .work-num{ font-family:'Cormorant Garamond',serif; font-size:13px; color:var(--red-soft); letter-spacing:.08em; }
+  .work-card h3{ font-size:22px; margin-top:10px; color:var(--ink); }
+  .work-card p{ font-size:14.5px; color:var(--ink-soft); margin:12px 0 16px; line-height:1.7; }
+  .work-tags{ display:flex; gap:8px; flex-wrap:wrap; }
+  .chip{ font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:var(--mist-soft); border:1px solid var(--fog-line); padding:5px 10px; border-radius:2px; }
+
+  /* ---------- links ---------- */
+  .link-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:2px; background:var(--fog-line); border:1px solid var(--fog-line); }
+  .link-card{
+    background:var(--navy); padding:22px 24px; display:flex; flex-direction:column; gap:6px;
+    transition:background .2s ease;
+  }
+  .link-card:hover{ background:var(--navy-panel); text-decoration:none; }
+  .link-card .icon{ font-size:18px; color:var(--amber); }
+  .link-card .label{ font-weight:700; color:var(--ink); font-size:14.5px; }
+  .link-card .sub{ font-size:12px; color:var(--mist-soft); }
+
+  /* ---------- contact ---------- */
+  .contact-box{
+    border:1px solid var(--fog-line); padding:64px; text-align:center; position:relative;
+    background:radial-gradient(circle at 50% 0%, rgba(233,185,104,.06), transparent 60%);
+  }
+  .contact-box h2{ font-size:32px; color:var(--ink); }
+  .contact-box p{ color:var(--ink-soft); margin-top:12px; max-width:420px; margin-left:auto; margin-right:auto; line-height:1.7; }
+  .contact-box .btn{ margin-top:28px; display:inline-block; }
+
+  footer{ text-align:center; padding:40px 8vw 70px; color:var(--mist-soft); font-size:12.5px; letter-spacing:.04em; position:relative; z-index:2; }
+
+  @media (max-width:640px){
+    .dock{ left:50%; top:auto; bottom:18px; transform:translateX(-50%); flex-direction:row; }
+    main{ padding-left:0; }
+    section{ padding:80px 6vw; }
+    .mode-toggle{ top:16px; right:16px; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .rain{ animation:none; }
+    *{ transition:none !important; }
+  }
+</style>
+</head>
+<body data-mode="midnight">
+
+  <div class="rain"></div>
+
+  <nav class="dock" aria-label="Section navigation">
+    <button onclick="document.getElementById('hero').scrollIntoView()" title="Home">◆</button>
+    <div class="divider"></div>
+    <button onclick="document.getElementById('about').scrollIntoView()" title="About">☂</button>
+    <button onclick="document.getElementById('work').scrollIntoView()" title="Work">▦</button>
+    <button onclick="document.getElementById('links').scrollIntoView()" title="Links">✦</button>
+    <button onclick="document.getElementById('contact').scrollIntoView()" title="Contact">✉</button>
+  </nav>
+
+  <button class="mode-toggle" id="modeToggle">midnight</button>
+
+  <main>
+
+    <section id="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-scrim"></div>
+      <div class="hero-content">
+        <div class="eyebrow">portfolio — est. 2026</div>
+        <h1>your name<br>finds the light <em>in the rain</em></h1>
+        <p class="lede">Illustrator / developer — replace this line with your real tagline. I make quiet, atmospheric work about [what you care about].</p>
+        <div class="hero-actions">
+          <button class="btn btn-solid" onclick="document.getElementById('work').scrollIntoView()">view work</button>
+          <button class="btn btn-ghost" onclick="document.getElementById('contact').scrollIntoView()">get in touch</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="section-label"><span class="num">01</span><h2>about</h2><span class="rule"></span></div>
+      <div class="grid">
+        <div class="portrait"><span class="cap">your name — self portrait</span></div>
+        <div class="copy">
+          <p>Hey — I'm [your name], a [your role] based in [your city]. I'm drawn to quiet, moody scenes — rooftops in the rain, city lights through fog, small figures against big skies. Replace this paragraph with your real story.</p>
+          <p>Outside of work I'm into [hobby], [hobby], and [hobby]. Swap this out for whatever makes this page feel like <em>you</em>.</p>
+          <ul class="fact-list">
+            <li><b>Education</b> your degree, school, year</li>
+            <li><b>Tools</b> Procreate, Photoshop, Figma, VS Code...</li>
+            <li><b>Based in</b> your city, country</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="work">
+      <div class="section-label"><span class="num">02</span><h2>work</h2><span class="rule"></span></div>
+      <div class="work-grid">
+        <div class="work-card">
+          <div class="work-num">01</div>
+          <h3>Project One</h3>
+          <p>One or two lines describing this project — what it is and why you made it.</p>
+          <div class="work-tags"><span class="chip">Illustration</span><span class="chip">Procreate</span></div>
+        </div>
+        <div class="work-card">
+          <div class="work-num">02</div>
+          <h3>Project Two</h3>
+          <p>Short description of your second project goes here.</p>
+          <div class="work-tags"><span class="chip">Web Dev</span></div>
+        </div>
+        <div class="work-card">
+          <div class="work-num">03</div>
+          <h3>Project Three</h3>
+          <p>Short description of your third project goes here.</p>
+          <div class="work-tags"><span class="chip">React</span><span class="chip">Next.js</span></div>
+        </div>
+        <div class="work-card">
+          <div class="work-num">04</div>
+          <h3>Project Four</h3>
+          <p>Short description of your fourth project goes here.</p>
+          <div class="work-tags"><span class="chip">Animation</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="links">
+      <div class="section-label"><span class="num">03</span><h2>links</h2><span class="rule"></span></div>
+      <div class="link-grid">
+        <a class="link-card" href="#"><span class="icon">◆</span><span class="label">Twitter / X</span><span class="sub">@yourhandle</span></a>
+        <a class="link-card" href="#"><span class="icon">▶</span><span class="label">YouTube</span><span class="sub">your channel</span></a>
+        <a class="link-card" href="#"><span class="icon">◎</span><span class="label">Instagram</span><span class="sub">@yourhandle</span></a>
+        <a class="link-card" href="#"><span class="icon">⌥</span><span class="label">GitHub</span><span class="sub">yourusername</span></a>
+        <a class="link-card" href="#"><span class="icon">☕</span><span class="label">Ko-fi</span><span class="sub">support my work</span></a>
+        <a class="link-card" href="#"><span class="icon">✦</span><span class="label">Shop / Prints</span><span class="sub">buy stuff</span></a>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="section-label"><span class="num">04</span><h2>contact</h2><span class="rule"></span></div>
+      <div class="contact-box">
+        <h2>let's work together</h2>
+        <p>The easiest way to reach me is by email — I'll usually reply within a couple of days.</p>
+        <a class="btn btn-solid" href="mailto:hello@yourdomain.com">send an email</a>
+      </div>
+    </section>
+
+    <footer>© 2026 your name · site built around a rainy rooftop</footer>
+
+  </main>
+
+<script>
+  const body = document.body;
+  const toggle = document.getElementById('modeToggle');
+  toggle.addEventListener('click', () => {
+    const isDawn = body.getAttribute('data-mode') === 'dawn';
+    body.setAttribute('data-mode', isDawn ? 'midnight' : 'dawn');
+    toggle.textContent = isDawn ? 'midnight' : 'dawn';
+  });
+</script>
+
+</body>
+</html>
