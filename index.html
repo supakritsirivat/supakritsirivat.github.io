@@ -18,7 +18,7 @@
     --ink-soft:   #AEBAC7;
     --red:        #C4453A;
     --red-soft:   #E0736A;
-    --amber:      #E9B968;
+    --glow:       #9FC4DE;
   }
   *{ box-sizing:border-box; }
   html{ scroll-behavior:smooth; }
@@ -37,12 +37,12 @@
     padding:18px 8vw; background:rgba(14,21,32,0.85); backdrop-filter:blur(10px);
     border-bottom:1px solid var(--fog-line);
   }
-  .brand{ display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.03em; }
+  .brand{ display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.01em; font-size:16px; }
   .brand .umbrella{ font-size:18px; color:var(--red); transform:rotate(-8deg); display:inline-block; }
-  .brand .name{ font-size:14px; text-transform:uppercase; letter-spacing:.12em; color:var(--ink-soft); }
+  .brand .name{ font-size:15px; color:var(--ink); font-weight:800; }
   .nav-links{ display:flex; align-items:center; gap:30px; }
   .nav-links a{ font-size:13.5px; color:var(--ink-soft); font-weight:600; }
-  .nav-links a:hover{ color:var(--amber); }
+  .nav-links a:hover{ color:var(--glow); }
   .btn-contact{
     font-size:12.5px; font-weight:700; letter-spacing:.04em; text-transform:uppercase;
     padding:10px 20px; border:1px solid var(--ink); color:var(--ink); transition:all .2s ease;
@@ -60,19 +60,23 @@
     font-family:'Cormorant Garamond',serif; font-size:64px; color:var(--red-soft);
     position:relative; overflow:hidden;
   }
+  .avatar img{
+    width:100%; height:100%; object-fit:cover; object-position:center 20%;
+    filter:saturate(.95) contrast(1.03);
+  }
   .avatar::after{
     content:"☂"; position:absolute; bottom:-10px; right:-6px; font-size:70px; color:var(--fog-line); opacity:.6;
   }
   .badge{
     display:inline-block; font-size:12px; letter-spacing:.08em; text-transform:uppercase;
-    border:1px solid var(--amber); color:var(--amber); padding:6px 16px; border-radius:999px; margin-bottom:18px;
+    border:1px solid var(--glow); color:var(--glow); padding:6px 16px; border-radius:999px; margin-bottom:18px;
   }
   #hero h1{ font-size:clamp(36px,5vw,56px); line-height:1.05; color:var(--ink); }
   .roles{ margin-top:14px; font-size:15px; color:var(--ink-soft); letter-spacing:.02em; }
   .roles .dot{ color:var(--red-soft); margin:0 8px; }
   .contact-row{ margin-top:22px; display:flex; gap:24px; flex-wrap:wrap; font-size:13.5px; color:var(--mist-soft); }
   .contact-row a{ color:var(--mist-soft); }
-  .contact-row a:hover{ color:var(--amber); }
+  .contact-row a:hover{ color:var(--glow); }
 
   .stats{
     display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--fog-line);
@@ -90,13 +94,25 @@
   .section-label .rule{ flex:1; height:1px; background:var(--fog-line); }
 
   /* ---------- core expertise ---------- */
-  .core-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:var(--fog-line); border:1px solid var(--fog-line); }
-  @media (max-width:680px){ .core-grid{ grid-template-columns:repeat(2,1fr); } }
-  .core-item{ background:var(--navy); padding:26px 22px; transition:background .2s ease; }
-  .core-item:hover{ background:var(--navy-panel); }
-  .core-item .core-num{ font-family:'Cormorant Garamond',serif; color:var(--red-soft); font-size:13px; letter-spacing:.06em; }
-  .core-item h3{ font-size:17px; color:var(--ink); margin-top:8px; }
-  .core-item p{ font-size:13px; color:var(--mist-soft); margin-top:6px; line-height:1.55; }
+  .core-categories{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  @media (max-width:780px){ .core-categories{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:520px){ .core-categories{ grid-template-columns:1fr; } }
+  .core-cat{
+    background:var(--navy); border:1px solid var(--fog-line); border-radius:14px;
+    padding:24px 22px; transition:border-color .2s ease;
+  }
+  .core-cat:hover{ border-color:var(--glow); }
+  .core-cat-head{ display:flex; align-items:center; gap:10px; margin-bottom:18px; }
+  .core-cat-head .bar{ width:4px; height:18px; border-radius:2px; background:var(--glow); flex:none; }
+  .core-cat-head h3{
+    font-family:'Manrope',sans-serif; font-size:15px; font-weight:800; color:var(--ink); letter-spacing:.01em;
+  }
+  .core-tags{ display:flex; flex-wrap:wrap; gap:8px; }
+  .core-tags span{
+    font-family:'SF Mono','Consolas',monospace; font-size:12px; color:var(--ink-soft);
+    background:var(--navy-panel); border:1px solid var(--fog-line);
+    padding:8px 12px; border-radius:8px;
+  }
 
   /* ---------- projects ---------- */
   .project-list{ display:flex; flex-direction:column; }
@@ -112,18 +128,19 @@
   .chip{ font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:var(--mist-soft); border:1px solid var(--fog-line); padding:5px 10px; }
 
   /* ---------- experience ---------- */
-  .exp-item{ display:grid; grid-template-columns:160px 1fr; gap:24px; padding:26px 0; border-bottom:1px solid var(--fog-line); }
-  @media (max-width:600px){ .exp-item{ grid-template-columns:1fr; gap:6px; } }
-  .exp-item .period{ font-size:13px; color:var(--mist-soft); letter-spacing:.03em; }
-  .exp-item h3{ font-size:19px; color:var(--ink); }
-  .exp-item .org{ font-size:13.5px; color:var(--red-soft); margin-top:4px; }
-  .exp-item p{ font-size:14px; color:var(--ink-soft); margin-top:10px; line-height:1.7; }
+  .exp-entry{ padding:30px 0; border-bottom:1px solid var(--fog-line); }
+  .exp-entry:first-child{ padding-top:0; }
+  .exp-top{ display:flex; align-items:baseline; gap:16px; flex-wrap:wrap; }
+  .exp-top .exp-org{ font-size:22px; color:var(--ink); }
+  .exp-top .exp-period{ font-size:12.5px; color:var(--glow); letter-spacing:.04em; text-transform:uppercase; }
+  .exp-role{ font-size:14.5px; color:var(--red-soft); margin-top:6px; font-weight:600; }
+  .exp-entry p{ font-size:14px; color:var(--ink-soft); margin-top:12px; line-height:1.75; max-width:640px; }
 
   /* ---------- links strip ---------- */
   #links .link-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:1px; background:var(--fog-line); border:1px solid var(--fog-line); }
   .link-card{ background:var(--navy); padding:22px 24px; transition:background .2s ease; display:flex; flex-direction:column; gap:6px; }
   .link-card:hover{ background:var(--navy-panel); text-decoration:none; }
-  .link-card .icon{ font-size:17px; color:var(--amber); }
+  .link-card .icon{ font-size:17px; color:var(--glow); }
   .link-card .label{ font-weight:700; color:var(--ink); font-size:14px; }
   .link-card .sub{ font-size:12px; color:var(--mist-soft); }
 
@@ -137,30 +154,31 @@
   footer .fcopy{ font-size:12px; color:var(--mist-soft); margin-top:10px; }
   footer .fcontact{ font-size:13px; color:var(--ink-soft); display:flex; flex-direction:column; gap:8px; align-items:flex-end; }
   footer .fcontact a{ color:var(--ink-soft); }
-  footer .fcontact a:hover{ color:var(--amber); }
+  footer .fcontact a:hover{ color:var(--glow); }
   @media (max-width:600px){ footer{ flex-direction:column; } footer .fcontact{ align-items:flex-start; } }
 </style>
 </head>
 <body>
 
   <nav class="topnav">
-    <div class="brand"><span class="umbrella">☂</span><span class="name">Neony Lounge</span></div>
+    <div class="brand"><span class="umbrella">☂</span><span class="name">Supakrit Sirivat</span></div>
     <div class="nav-links">
       <a href="#core">Core</a>
       <a href="#projects">Project</a>
       <a href="#experience">Experience</a>
-      <a href="artist.html">Artist Page ↗</a>
+      <a href="#education">Education</a>
+      <a href="artist.html">NEONY LOUNGE ↗</a>
     </div>
     <a class="btn-contact" href="#footer">Contact</a>
   </nav>
 
   <section id="hero">
     <div class="hero-grid">
-      <div class="avatar">SS</div>
+      <div class="avatar"><img src="profile.jpg" alt="Supakrit Sirivat"></div>
       <div>
         <div class="badge">Full Stack Data</div>
-        <h1>Kris Supakrit Sirivat</h1>
-        <div class="roles">Data Consultant &amp; Management <span class="dot">•</span> Senior Business Analytics <span class="dot">•</span> Data Science <span class="dot">•</span> Data Engineer</div>
+        <h1>Supakrit Sirivat</h1>
+        <div class="roles">Senior Business Analytics <span class="dot">•</span> Data Solution &amp; Architecture <span class="dot">•</span> Data Governance <span class="dot">•</span> Data Engineer</div>
         <div class="contact-row">
           <a href="tel:+66856178255">+66 85-617-8255</a>
           <a href="mailto:supakritsirivat@gmail.com">supakritsirivat@gmail.com</a>
@@ -168,22 +186,40 @@
       </div>
     </div>
     <div class="stats">
-      <div class="stat"><div class="num">5+</div><div class="label">Years in Business</div></div>
-      <div class="stat"><div class="num">Azure</div><div class="label">Cloud Platform</div></div>
-      <div class="stat"><div class="num">GCP</div><div class="label">Cloud Platform</div></div>
-      <div class="stat"><div class="num">6</div><div class="label">Core Disciplines</div></div>
+      <div class="stat"><div class="num">5+</div><div class="label">Years Experience</div></div>
+      <div class="stat"><div class="num">3</div><div class="label">Companies</div></div>
+      <div class="stat"><div class="num">MSc</div><div class="label">Data Science, Merit</div></div>
+      <div class="stat"><div class="num">7.5</div><div class="label">IELTS</div></div>
     </div>
   </section>
 
   <section id="core">
     <div class="section-label"><span class="eyebrow">Core Expertise</span><h2>what I work with</h2><span class="rule"></span></div>
-    <div class="core-grid">
-      <div class="core-item"><div class="core-num">01</div><h3>Data Engineering</h3><p>Enterprise pipelines, ETL/ELT design, orchestration.</p></div>
-      <div class="core-item"><div class="core-num">02</div><h3>Cloud Platforms</h3><p>Microsoft Azure & Google Cloud infrastructure.</p></div>
-      <div class="core-item"><div class="core-num">03</div><h3>Business Analytics</h3><p>Dashboards, reporting, decision support.</p></div>
-      <div class="core-item"><div class="core-num">04</div><h3>Data Science</h3><p>Modeling, experimentation, insight generation.</p></div>
-      <div class="core-item"><div class="core-num">05</div><h3>Vendor & Platform Eval</h3><p>Assessing vendor-managed platforms and tooling.</p></div>
-      <div class="core-item"><div class="core-num">06</div><h3>Cross-team Delivery</h3><p>Working across security, infra & vendor teams.</p></div>
+    <div class="core-categories">
+      <div class="core-cat">
+        <div class="core-cat-head"><span class="bar"></span><h3>Data Architecture</h3></div>
+        <div class="core-tags"><span>Data Architecture</span><span>ETL / ELT</span><span>Azure Synapse</span><span>SAP Data Services</span><span>Data Modeling</span></div>
+      </div>
+      <div class="core-cat">
+        <div class="core-cat-head"><span class="bar"></span><h3>Cloud &amp; Platforms</h3></div>
+        <div class="core-tags"><span>Microsoft Azure</span><span>Microsoft Fabric</span><span>GCP</span><span>PostgreSQL</span><span>SQL Server</span></div>
+      </div>
+      <div class="core-cat">
+        <div class="core-cat-head"><span class="bar"></span><h3>Analytics &amp; BI</h3></div>
+        <div class="core-tags"><span>Power BI</span><span>Tableau Cloud</span><span>DAX</span><span>R</span></div>
+      </div>
+      <div class="core-cat">
+        <div class="core-cat-head"><span class="bar"></span><h3>Governance &amp; Management</h3></div>
+        <div class="core-tags"><span>Data Governance</span><span>Project Management</span><span>Stakeholder Mgmt</span><span>Vendor Management</span></div>
+      </div>
+      <div class="core-cat">
+        <div class="core-cat-head"><span class="bar"></span><h3>Programming &amp; ML</h3></div>
+        <div class="core-tags"><span>Python</span><span>SQL</span><span>PyTorch</span><span>TensorFlow</span><span>Claude Code</span><span>n8n</span></div>
+      </div>
+      <div class="core-cat">
+        <div class="core-cat-head"><span class="bar"></span><h3>CRM &amp; ERP</h3></div>
+        <div class="core-tags"><span>Salesforce</span><span>Odoo</span><span>Cross-functional Coordination</span><span>Architecture Design</span></div>
+      </div>
     </div>
   </section>
 
@@ -193,25 +229,33 @@
       <div class="project-row">
         <div class="pnum">01</div>
         <div>
-          <h3>Project One</h3>
-          <p>One or two lines summarizing this project — the problem, your role, and the outcome.</p>
-          <div class="project-tags"><span class="chip">Pipeline</span><span class="chip">Azure</span></div>
+          <h3>Enterprise CRM Data Integration</h3>
+          <p>Designed the CRM data solution and led data integration from legacy on-premise systems to Salesforce, supporting analytics and operational reporting across Industrial, Commercial, and Real Estate business units at Frasers Property.</p>
+          <div class="project-tags"><span class="chip">Salesforce</span><span class="chip">Azure Synapse</span><span class="chip">SAP Data Services</span></div>
         </div>
       </div>
       <div class="project-row">
         <div class="pnum">02</div>
         <div>
-          <h3>Project Two</h3>
-          <p>One or two lines summarizing this project — the problem, your role, and the outcome.</p>
-          <div class="project-tags"><span class="chip">GCP</span><span class="chip">Analytics</span></div>
+          <h3>Organization-wide Data Governance Policy</h3>
+          <p>Developed a comprehensive Data Governance Policy with project managers and executive leadership to ensure effective management, protection, and utilization of company data assets.</p>
+          <div class="project-tags"><span class="chip">Data Governance</span><span class="chip">Policy Design</span></div>
         </div>
       </div>
       <div class="project-row">
         <div class="pnum">03</div>
         <div>
-          <h3>Project Three</h3>
-          <p>One or two lines summarizing this project — the problem, your role, and the outcome.</p>
-          <div class="project-tags"><span class="chip">Data Science</span></div>
+          <h3>Enterprise Datamart &amp; BI Platform</h3>
+          <p>Built curated datamarts on Azure SQL Database and Power BI / Tableau dashboards for Sales, Purchasing, Inventory, Accounting, and HR — enabling real-time and monthly performance monitoring.</p>
+          <div class="project-tags"><span class="chip">Power BI</span><span class="chip">Tableau</span><span class="chip">Azure SQL</span></div>
+        </div>
+      </div>
+      <div class="project-row">
+        <div class="pnum">04</div>
+        <div>
+          <h3>Membership Inference Attack on Tabular Data</h3>
+          <p>MSc dissertation researching machine learning vulnerability to Membership Inference Attacks. Designed a multi-stage Target/Shadow/Attack model pipeline in Python, scikit-learn, and PyTorch across multiple classifiers.</p>
+          <div class="project-tags"><span class="chip">PyTorch</span><span class="chip">scikit-learn</span><span class="chip">Research</span></div>
         </div>
       </div>
     </div>
@@ -220,29 +264,36 @@
   <section id="experience">
     <div class="section-label"><span class="eyebrow">5+ in Business</span><h2>work experience</h2><span class="rule"></span></div>
     <div class="exp-list">
-      <div class="exp-item">
-        <div class="period">Present</div>
-        <div>
-          <h3>Role Title</h3>
-          <div class="org">Company Name</div>
-          <p>Short description of your current role and impact.</p>
-        </div>
+      <div class="exp-entry">
+        <div class="exp-top"><h3 class="exp-org">Frasers Property Thailand PCL.</h3><span class="exp-period">Jan 2024 — Present</span></div>
+        <div class="exp-role">Senior Executive Business Analytics — Enterprise Product Management</div>
+        <p>Design enterprise data architecture and CRM data solutions across Industrial, Commercial, and Real Estate business units. Lead ETL workflows on Azure Synapse, SAP Data Services, and Microsoft Fabric, and build datamarts for Power BI / Tableau reporting. Lead data governance policy development and mentor junior data team members.</p>
       </div>
-      <div class="exp-item">
-        <div class="period">20XX</div>
-        <div>
-          <h3>Role Title</h3>
-          <div class="org">Company Name</div>
-          <p>Short description of this role and impact.</p>
-        </div>
+      <div class="exp-entry">
+        <div class="exp-top"><h3 class="exp-org">Ecobz Thai Co., Ltd</h3><span class="exp-period">Sep 2021 — Dec 2023</span></div>
+        <div class="exp-role">Data Scientist — ERP Solution Delivery and Analytics</div>
+        <p>Built and maintained ETL pipelines extracting data from Odoo and transforming via Python into the data warehouse. Developed Power BI dashboards for Sales, Purchasing, Inventory, Accounting, and HR. Designed and deployed custom Odoo modules for R&amp;D and QC teams.</p>
       </div>
-      <div class="exp-item">
-        <div class="period">20XX</div>
-        <div>
-          <h3>Role Title</h3>
-          <div class="org">Company Name</div>
-          <p>Short description of this role and impact.</p>
-        </div>
+      <div class="exp-entry">
+        <div class="exp-top"><h3 class="exp-org">G-ABLE Co., Ltd</h3><span class="exp-period">Jun 2021 — Jul 2021</span></div>
+        <div class="exp-role">Data Analytics Engineer Intern</div>
+        <p>Performed data cleaning, transformation, and validation using Python, CSV, and PostgreSQL. Created reusable master reference datasets for data standardization and documented transformation logic.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="section-label"><span class="eyebrow">Academic Background</span><h2>education</h2><span class="rule"></span></div>
+    <div class="exp-list">
+      <div class="exp-entry">
+        <div class="exp-top"><h3 class="exp-org">University of Birmingham — Dubai, UAE</h3><span class="exp-period">Sep 2022 — Nov 2023</span></div>
+        <div class="exp-role">MSc Data Science, with Merit</div>
+        <p>Dissertation on Membership Inference Attacks on tabular data. Group project analyzing the economic impact of natural disasters. Implemented a data vault using Python and PostgreSQL for centralized, privacy-hashed data management.</p>
+      </div>
+      <div class="exp-entry">
+        <div class="exp-top"><h3 class="exp-org">King Mongkut's University of Technology Thonburi — Bangkok, Thailand</h3><span class="exp-period">Aug 2018 — Jun 2022</span></div>
+        <div class="exp-role">BEng Computer Engineering (International Program)</div>
+        <p>Final project on an operational plan for ERP system development for a factory. Hands-on experience with R, Tableau, MySQL, and MongoDB.</p>
       </div>
     </div>
   </section>
@@ -250,9 +301,9 @@
   <section id="links">
     <div class="section-label"><span class="eyebrow">Elsewhere</span><h2>links</h2><span class="rule"></span></div>
     <div class="link-grid">
-      <a class="link-card" href="artist.html"><span class="icon">☂</span><span class="label">Artist Page</span><span class="sub">creative portfolio</span></a>
-      <a class="link-card" href="#"><span class="icon">⌥</span><span class="label">GitHub</span><span class="sub">supakritsirivat</span></a>
-      <a class="link-card" href="#"><span class="icon">in</span><span class="label">LinkedIn</span><span class="sub">your profile</span></a>
+      <a class="link-card" href="artist.html"><span class="icon">☂</span><span class="label">NEONY LOUNGE</span><span class="sub">creative portfolio</span></a>
+      <a class="link-card" href="https://www.instagram.com/kris.soju/"><span class="icon">◎</span><span class="label">Instagram</span><span class="sub">@kris.soju</span></a>
+      <a class="link-card" href="https://linkedin.com/in/supakrit-s-02507710a"><span class="icon">in</span><span class="label">LinkedIn</span><span class="sub">supakrit-s-02507710a</span></a>
       <a class="link-card" href="mailto:supakritsirivat@gmail.com"><span class="icon">✉</span><span class="label">Email</span><span class="sub">supakritsirivat@gmail.com</span></a>
     </div>
   </section>
@@ -260,7 +311,7 @@
   <footer id="footer">
     <div>
       <div class="fname">Supakrit Sirivat</div>
-      <div class="froles">Data Consultant &amp; Management • Senior Business Analytics • Data Science • Data Engineer</div>
+      <div class="froles">Senior Business Analytics • Data Solution &amp; Architecture • Data Governance • Data Engineer</div>
       <div class="fcopy">© 2026 Supakrit Sirivat. All rights reserved.</div>
     </div>
     <div class="fcontact">
