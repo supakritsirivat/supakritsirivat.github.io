@@ -197,9 +197,71 @@
   dialog#lb p{ margin:10px 4px 0; font-size:13px; color:var(--mist-soft); }
   dialog#lb .x{ all:unset; cursor:pointer; position:absolute; top:8px; right:12px; font-size:18px; color:var(--ink); background:rgba(14,21,32,.7); padding:2px 8px; border-radius:6px; }
   @media (prefers-reduced-motion:reduce){ html{ scroll-behavior:auto; } .js .reveal{ opacity:1; transform:none; } *{ transition:none !important; } }
+
+  :root{ --ease:cubic-bezier(.22,1,.36,1); --spot: rgba(159,196,222,.16); }
+  .grain{ position:fixed; inset:0; z-index:3; pointer-events:none; opacity:.035; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+  a,button{ transition:background .35s var(--ease), border-color .35s var(--ease), color .35s var(--ease), transform .35s var(--ease), box-shadow .35s var(--ease); }
+  .btn{ position:relative; overflow:hidden; }
+  .btn:active{ transform:scale(.96); }
+  .btn-solid:hover{ transform:translateY(-2px); box-shadow:0 10px 30px -8px rgba(196,69,58,.55); }
+  .btn-ghost:hover{ transform:translateY(-2px); }
+  .mode-toggle, .btn-contact{ transition:all .35s var(--ease); }
+  .mode-toggle:hover, .btn-contact:hover{ transform:translateY(-1px); }
+  .mode-toggle:active, .btn-contact:active{ transform:scale(.96); }
+
+  .avatar-shell{
+    width:236px; padding:8px; border-radius:22px; background:var(--navy-panel);
+    border:1px solid var(--fog-line); box-shadow:inset 0 1px 1px rgba(255,255,255,.04), 0 24px 50px -20px rgba(0,0,0,.6);
+    transition:transform .5s var(--ease), box-shadow .5s var(--ease); transform-style:preserve-3d; will-change:transform;
+  }
+  .avatar-shell:hover{ box-shadow:inset 0 1px 1px rgba(255,255,255,.06), 0 30px 60px -18px rgba(196,69,58,.35); }
+  .avatar{ width:100%; height:220px; border-radius:16px; }
+
+  [data-spot]{ position:relative; isolation:isolate; }
+  [data-spot]::before{
+    content:""; position:absolute; inset:-1px; border-radius:inherit; padding:1px; z-index:0; opacity:0;
+    background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%), var(--red-soft), transparent 60%);
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor; mask-composite:exclude;
+    transition:opacity .4s var(--ease);
+  }
+  [data-spot]:hover::before{ opacity:.55; }
+  [data-spot] > *{ position:relative; z-index:1; }
+  .core-cat, .cert, .g-item{ transition:transform .45s var(--ease), border-color .3s var(--ease), box-shadow .45s var(--ease); }
+  .core-cat:hover, .cert:hover{ transform:translateY(-4px); box-shadow:0 22px 44px -22px rgba(0,0,0,.65); }
+  .g-item:hover{ box-shadow:0 22px 44px -22px rgba(0,0,0,.65); }
+  .core-tags span{ transition:transform .3s var(--ease), border-color .3s var(--ease), color .3s var(--ease); }
+  .core-tags span:hover{ transform:translateY(-2px); }
+
+  .stat{ transition:background .35s var(--ease); }
+  .stat:hover{ background:var(--navy-panel); }
+  .stat .num{ font-variant-numeric:tabular-nums; }
+
+  .link-card{ position:relative; overflow:hidden; }
+  .link-card::after{
+    content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:var(--glow);
+    transform:scaleX(0); transform-origin:left; transition:transform .4s var(--ease);
+  }
+  .link-card:hover::after{ transform:scaleX(1); }
+  .link-card:hover{ transform:translateY(-2px); }
+
+  .nav-links a{ position:relative; }
+  .nav-links a::after{
+    content:""; position:absolute; left:0; right:0; bottom:-4px; height:1px; background:var(--glow);
+    transform:scaleX(0); transform-origin:left; transition:transform .35s var(--ease);
+  }
+  .nav-links a:hover::after, .nav-links a.active::after{ transform:scaleX(1); }
+
+  .js .reveal{ filter:blur(6px); }
+  .js .reveal.in{ filter:blur(0); transition:opacity .8s var(--ease), transform .8s var(--ease), filter .8s var(--ease); }
+
+  @media (hover:none){ [data-spot]::before{ display:none; } .avatar-shell{ transform:none !important; } }
 </style>
 </head>
 <body>
+  <div class="grain" aria-hidden="true"></div>
   <a class="skip" href="#core">Skip to content</a>
 
   <nav class="topnav">
@@ -218,57 +280,57 @@
 
   <section id="hero">
     <div class="hero-grid">
-      <div class="avatar"><img src="profile.jpg" alt="Supakrit Sirivat" width="220" height="220" fetchpriority="high"></div>
+      <div class="avatar-shell" data-tilt><div class="avatar"><img src="profile.jpg" alt="Supakrit Sirivat" width="220" height="220" fetchpriority="high"></div></div>
       <div>
-        <div class="badge">Full Stack Data</div>
+        <div class="badge">Full Stack Data and Business Consult</div>
         <h1>Supakrit Sirivat</h1>
-        <div class="roles">Senior Business Analytics <span class="dot">•</span> Data Solution &amp; Architecture <span class="dot">•</span> Data Governance <span class="dot">•</span> Data Engineer</div>
+        <div class="roles">Senior Business Analytics <span class="dot">•</span> Data Solution &amp; Architecture <span class="dot">•</span> Data Governance <span class="dot">•</span> Data Management  <span class="dot">•</span> Data Scientist <span class="dot">•</span> Data Engineer</div>
         <div class="contact-row">
           <a href="tel:+66856178255">+66 85-617-8255</a>
           <a href="mailto:supakritsirivat@gmail.com">supakritsirivat@gmail.com</a>
         </div>
       </div>
     </div>
-    <div class="stats">
-      <div class="stat"><div class="num">5+</div><div class="label">Years Experience</div></div>
-      <div class="stat"><div class="num">3</div><div class="label">Companies</div></div>
-      <div class="stat"><div class="num">MSc</div><div class="label">Data Science, Merit</div></div>
-      <div class="stat"><div class="num">CDMP</div><div class="label">Certified, DAMA</div></div>
+    <div class="stats" id="stats">
+      <div class="stat"><div class="num" data-count="5" data-suffix="+">Years</div><div class="label">Experience</div></div>
+      <div class="stat"><div class="num" data-count="9"> Companies</div><div class="label">Work With</div></div>
+      <div class="stat"><div class="num">MSc</div><div class="label">Data Science</div></div>
+      <div class="stat"><div class="num">CDMP</div><div class="label">Certified, DAMA Associate</div></div>
     </div>
   </section>
 
   <section id="core">
-    <div class="section-label"><span class="eyebrow">Core Expertise</span><h2>what I work with</h2><span class="rule"></span></div>
+    <div class="section-label"><span class="eyebrow">Core Expertise</span><h2>technical skills</h2><span class="rule"></span></div>
     <div class="core-categories">
-      <div class="core-cat">
-        <div class="core-cat-head"><span class="bar"></span><h3>Data Architecture</h3></div>
-        <div class="core-tags"><span>Data Architecture</span><span>ETL / ELT</span><span>Azure Synapse</span><span>SAP Data Services</span><span>Data Modeling</span></div>
+      <div class="core-cat" data-spot>
+        <div class="core-cat-head"><span class="bar"></span><h3>Business Domain</h3></div>
+        <div class="core-tags"><span>Stakeholder & Vendor Management</span><span>Coordination</span><span>Business Analyst</span><span>User Requirement</span></div>
       </div>
-      <div class="core-cat">
-        <div class="core-cat-head"><span class="bar"></span><h3>Cloud &amp; Platforms</h3></div>
-        <div class="core-tags"><span>Microsoft Azure</span><span>Microsoft Fabric</span><span>GCP</span><span>PostgreSQL</span><span>SQL Server</span></div>
+      <div class="core-cat" data-spot>
+        <div class="core-cat-head"><span class="bar"></span><h3>Cloud &amp; Database</h3></div>
+        <div class="core-tags"><span>Microsoft Azure</span><span>Microsoft Fabric</span><span>GCP</span><span>Databrick</span><span>SQL Server</span><span>MongoDB</span></div>
       </div>
-      <div class="core-cat">
+      <div class="core-cat" data-spot>
         <div class="core-cat-head"><span class="bar"></span><h3>Analytics &amp; BI</h3></div>
-        <div class="core-tags"><span>Power BI</span><span>Tableau Cloud</span><span>DAX</span><span>R</span></div>
+        <div class="core-tags"><span>Power BI</span><span>Tableau Cloud</span><span>SAP Data Service</span><span>Synapse Analytic</span><span>DAX</span><span>R</span><span>Audit Log</span></div>
       </div>
-      <div class="core-cat">
+      <div class="core-cat" data-spot>
         <div class="core-cat-head"><span class="bar"></span><h3>Governance &amp; Management</h3></div>
-        <div class="core-tags"><span>Data Governance</span><span>DMBOK</span><span>Project Management</span><span>Stakeholder Mgmt</span><span>Vendor Management</span></div>
+        <div class="core-tags"><span>Data Governance</span><span>DMBOK</span><span>Project Management</span><span>Knowledge Catalog</span><span>Microsoft Purview</span></div>
       </div>
-      <div class="core-cat">
+      <div class="core-cat" data-spot>
         <div class="core-cat-head"><span class="bar"></span><h3>Programming &amp; ML</h3></div>
-        <div class="core-tags"><span>Python</span><span>SQL</span><span>PyTorch</span><span>TensorFlow</span><span>Vertex AI</span><span>Gemini Enterprise</span><span>Claude Code</span><span>n8n</span></div>
+        <div class="core-tags"><span>Python</span><span>SQL</span><span>PyTorch</span><span>TensorFlow</span><span>Vertex AI</span><span>Gemini Enterprise</span><span>Claude Code</span><span>Vibe code</span></div>
       </div>
-      <div class="core-cat">
+      <div class="core-cat" data-spot>
         <div class="core-cat-head"><span class="bar"></span><h3>CRM &amp; ERP</h3></div>
-        <div class="core-tags"><span>Salesforce</span><span>Odoo</span><span>Cross-functional Coordination</span><span>Architecture Design</span></div>
+        <div class="core-tags"><span>SAP</span><span>Salesforce</span><span>Odoo</span><span>On-prem</span><span>POS</span></div>
       </div>
     </div>
   </section>
 
   <section id="projects">
-    <div class="section-label"><span class="eyebrow">Selected Work</span><h2>project summary</h2><span class="rule"></span></div>
+    <div class="section-label"><span class="eyebrow">Hands On</span><h2>project </h2><span class="rule"></span></div>
     <div class="project-list">
       <div class="project-row">
         <div class="pnum">01</div>
@@ -306,7 +368,7 @@
   </section>
 
   <section id="experience">
-    <div class="section-label"><span class="eyebrow">5+ in Business</span><h2>work experience</h2><span class="rule"></span></div>
+    <div class="section-label"><span class="eyebrow">In Business</span><h2>professional experience</h2><span class="rule"></span></div>
     <div class="exp-list">
       <div class="exp-entry">
         <div class="exp-top"><h3 class="exp-org">Frasers Property Thailand PCL.</h3><span class="exp-period">Jan 2024 — Present</span></div>
@@ -345,8 +407,8 @@
   <section id="gallery">
     <div class="section-label"><span class="eyebrow">Moments</span><h2>gallery</h2><span class="rule"></span></div>
     <div class="gallery">
-      <figure class="g-item reveal"><button class="g-btn" type="button" data-lb data-src="gallery-cdmp.jpg" data-cap="CDMP celebration with fellow certified data management professionals"><img src="gallery-cdmp.jpg" alt="Group photo of newly certified data management professionals in front of a DAMA congratulations backdrop" width="1600" height="1200" loading="lazy"></button><figcaption>CDMP celebration with fellow certified professionals</figcaption></figure>
-      <figure class="g-item reveal"><a class="g-btn" href="artist.html"><img src="identity.jpg" alt="Illustration of two figures under a red umbrella on a rainy rooftop above a misty city" width="2048" height="1206" loading="lazy"></a><figcaption>NEONY LOUNGE — the rooftop artwork</figcaption></figure>
+      <figure class="g-item reveal" data-spot><button class="g-btn" type="button" data-lb data-src="gallery-cdmp.jpg" data-cap="CDMP celebration with fellow certified data management professionals"><img src="gallery-cdmp.jpg" alt="Group photo of newly certified data management professionals in front of a DAMA congratulations backdrop" width="1600" height="1200" loading="lazy"></button><figcaption>CDMP celebration with fellow certified professionals</figcaption></figure>
+      <figure class="g-item reveal" data-spot><a class="g-btn" href="artist.html"><img src="identity.jpg" alt="Illustration of two figures under a red umbrella on a rainy rooftop above a misty city" width="2048" height="1206" loading="lazy"></a><figcaption>NEONY LOUNGE — the rooftop artwork</figcaption></figure>
     </div>
   </section>
 
@@ -359,19 +421,19 @@
       <button type="button" data-f="biz" aria-pressed="false">Risk &amp; Business</button>
     </div>
     <div class="cert-grid">
-      <article class="cert featured reveal" data-cat="data"><span class="tag">Certified</span><h3>Certified Data Management Professional Associate (CDMP)</h3><div class="issuer">DAMA International</div><div class="issuer">Issued Sep 11, 2026 · valid to Sep 11, 2029</div><button class="view" type="button" data-lb data-src="cert-cdmp.jpg" data-cap="Certified Data Management Professional Associate, DAMA International, issued September 11, 2026">View certificate</button></article>
-      <article class="cert reveal" data-cat="biz"><span class="tag">Aug 2026</span><h3>Business Continuity Management Using ISO 22301</h3><div class="issuer">Network Training Center Co., Ltd.</div><button class="view" type="button" data-lb data-src="cert-iso22301.png" data-cap="Business Continuity Management Using ISO 22301, August 11, 2026">View certificate</button></article>
-      <article class="cert reveal" data-cat="data"><h3>Mastering SAP Data Architecture</h3><div class="issuer">SAP</div></article>
-      <article class="cert reveal" data-cat="ai"><span class="tag">Jun 2026</span><h3>Gemini for Workspace</h3><div class="issuer">Jellyfish</div><button class="view" type="button" data-lb data-src="cert-gemini.jpg" data-cap="Gemini for Workspace certificate of completion, Jellyfish Training, 24 June 2026">View certificate</button></article>
-      <article class="cert reveal" data-cat="data"><h3>Snowflake Northstar &amp; events</h3><div class="issuer">Snowflake</div><ul><li>From Zero to Agents</li><li>Dynamic Tables</li><li>Data Ingestion, Transformation, and Delivery</li><li>Data for Breakfast Virtual Asia Pacific</li></ul><button class="view" type="button" data-lb data-src="cert-snowflake-d4b.jpg" data-cap="Snowflake certificate of attendance, Data For Breakfast Virtual Asia Pacific, 13-17 April 2026">View attendance certificate</button></article>
-      <article class="cert reveal" data-cat="biz"><h3>Pitch Preparation and Investor Presentation</h3><div class="issuer">University of Birmingham</div></article>
+      <article class="cert featured reveal" data-cat="data" data-spot><span class="tag">Certified</span><h3>Certified Data Management Professional Associate (CDMP)</h3><div class="issuer">DAMA International</div><div class="issuer">Issued Sep 11, 2026 · valid to Sep 11, 2029</div><button class="view" type="button" data-lb data-src="cert-cdmp.jpg" data-cap="Certified Data Management Professional Associate, DAMA International, issued September 11, 2026">View certificate</button></article>
+      <article class="cert reveal" data-spot data-cat="biz"><span class="tag">Aug 2026</span><h3>Business Continuity Management Using ISO 22301</h3><div class="issuer">Network Training Center Co., Ltd.</div><button class="view" type="button" data-lb data-src="cert-iso22301.png" data-cap="Business Continuity Management Using ISO 22301, August 11, 2026">View certificate</button></article>
+      <article class="cert reveal" data-spot data-cat="data"><h3>Mastering SAP Data Architecture</h3><div class="issuer">SAP</div></article>
+      <article class="cert reveal" data-spot data-cat="ai"><span class="tag">Jun 2026</span><h3>Gemini for Workspace</h3><div class="issuer">Jellyfish</div><button class="view" type="button" data-lb data-src="cert-gemini.jpg" data-cap="Gemini for Workspace certificate of completion, Jellyfish Training, 24 June 2026">View certificate</button></article>
+      <article class="cert reveal" data-spot data-cat="data"><h3>Snowflake Northstar &amp; events</h3><div class="issuer">Snowflake</div><ul><li>From Zero to Agents</li><li>Dynamic Tables</li><li>Data Ingestion, Transformation, and Delivery</li><li>Data for Breakfast Virtual Asia Pacific</li></ul><button class="view" type="button" data-lb data-src="cert-snowflake-d4b.jpg" data-cap="Snowflake certificate of attendance, Data For Breakfast Virtual Asia Pacific, 13-17 April 2026">View attendance certificate</button></article>
+      <article class="cert reveal" data-spot data-cat="biz"><h3>Pitch Preparation and Investor Presentation</h3><div class="issuer">University of Birmingham</div></article>
     </div>
   </section>
 
   <dialog id="lb" aria-label="Image viewer"><button class="x" type="button" aria-label="Close">✕</button><img alt="" width="1053" height="745"><p></p></dialog>
 
   <section id="links">
-    <div class="section-label"><span class="eyebrow">Elsewhere</span><h2>links</h2><span class="rule"></span></div>
+    <div class="section-label"><span class="eyebrow">Elsewhere</span><h2>social</h2><span class="rule"></span></div>
     <div class="link-grid">
       <a class="link-card" href="artist.html"><span class="icon">☂</span><span class="label">NEONY LOUNGE</span><span class="sub">creative portfolio</span></a>
       <a class="link-card" href="https://www.instagram.com/kris.soju/"><span class="icon">◎</span><span class="label">Instagram</span><span class="sub">@kris.soju</span></a>
@@ -383,7 +445,7 @@
   <footer id="footer">
     <div>
       <div class="fname">Supakrit Sirivat</div>
-      <div class="froles">Senior Business Analytics • Data Solution &amp; Architecture • Data Governance • Data Engineer</div>
+      <div class="froles">Senior Business Analytics • Data Solution &amp; Architecture • Data Governance • Data Management • Data Scientist • Data Engineer</div>
       <div class="fcopy">© 2026 Supakrit Sirivat. All rights reserved.</div>
     </div>
     <div class="fcontact">
@@ -407,6 +469,44 @@
   document.querySelectorAll('[data-lb]').forEach(b=>b.addEventListener('click',()=>{lbi.src=b.dataset.src;lbi.alt=b.dataset.cap;lbp.textContent=b.dataset.cap;lb.showModal();}));
   lb.querySelector('.x').addEventListener('click',()=>lb.close());
   lb.addEventListener('click',e=>{if(e.target===lb)lb.close();});
+</script>
+<script>
+  // spotlight border follow
+  document.querySelectorAll('[data-spot]').forEach(el=>{
+    el.addEventListener('mousemove', e=>{
+      const r=el.getBoundingClientRect();
+      el.style.setProperty('--mx', (e.clientX-r.left)+'px');
+      el.style.setProperty('--my', (e.clientY-r.top)+'px');
+    });
+  });
+
+  // magnetic avatar tilt
+  const shell=document.querySelector('.avatar-shell');
+  if(shell){
+    shell.addEventListener('mousemove', e=>{
+      const r=shell.getBoundingClientRect();
+      const px=(e.clientX-r.left)/r.width-.5, py=(e.clientY-r.top)/r.height-.5;
+      shell.style.transform=`rotateY(${px*10}deg) rotateX(${-py*10}deg)`;
+    });
+    shell.addEventListener('mouseleave', ()=>{ shell.style.transform='rotateY(0) rotateX(0)'; });
+  }
+
+  // count-up stats
+  const statEls=[...document.querySelectorAll('.stat .num[data-count]')];
+  const runCount=el=>{
+    const target=+el.dataset.count, suf=el.dataset.suffix||'';
+    const dur=900, t0=performance.now();
+    const step=t=>{
+      const p=Math.min(1,(t-t0)/dur), eased=1-Math.pow(1-p,3);
+      el.textContent=Math.round(eased*target)+suf;
+      if(p<1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+  if(statEls.length){
+    const statsIo=new IntersectionObserver(es=>es.forEach(x=>{ if(x.isIntersecting){ statEls.forEach(runCount); statsIo.disconnect(); } }),{threshold:.4});
+    statsIo.observe(document.getElementById('stats'));
+  }
 </script>
 </body>
 </html>
