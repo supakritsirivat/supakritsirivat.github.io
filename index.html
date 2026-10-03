@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="theme-color" content="#0E1520">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Supakrit Sirivat — Data Consultant & Management</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
     --navy-deep:  #0E1520;
@@ -21,13 +21,15 @@
     --red-soft:   #E0736A;
     --glow:       #9FC4DE;
   }
-  *{ box-sizing:border-box; }
-  html{ scroll-behavior:smooth; }
+  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html{ scroll-behavior:smooth; overflow-x:hidden; }
   body{
     margin:0; background:var(--navy-deep); color:var(--ink);
-    font-family:'Manrope', sans-serif;
+    font-family:'Plus Jakarta Sans', sans-serif; overflow-x:hidden; width:100%; -webkit-font-smoothing:antialiased;
   }
-  h1,h2,h3{ font-family:'Cormorant Garamond', serif; font-weight:600; margin:0; }
+  a,button{ touch-action:manipulation; }
+  img{ max-width:100%; height:auto; }
+  h1,h2,h3{ font-family:'Fraunces', serif; font-optical-sizing:auto; font-weight:500; margin:0; }
   a{ color:var(--red-soft); text-decoration:none; }
   section{ padding:100px 8vw; max-width:1080px; margin:0 auto; scroll-margin-top:90px; }
 
@@ -35,30 +37,76 @@
   .topnav{
     position:sticky; top:0; z-index:50;
     display:flex; align-items:center; justify-content:space-between;
-    padding:18px 8vw; background:rgba(14,21,32,0.85); backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--fog-line);
+    padding:16px 6vw; background:rgba(14,21,32,0.9); backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--fog-line); gap:12px;
   }
-  .brand{ display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.01em; font-size:16px; }
+  .brand{ display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.01em; font-size:16px; flex:none; }
   .brand .umbrella{ font-size:18px; color:var(--red); transform:rotate(-8deg); display:inline-block; }
   .brand .name{ font-size:15px; color:var(--ink); font-weight:800; }
-  .nav-links{ display:flex; align-items:center; gap:30px; }
-  .nav-links a{ font-size:13.5px; color:var(--ink-soft); font-weight:600; }
+  .nav-links{ display:flex; align-items:center; gap:28px; flex-wrap:wrap; justify-content:flex-end; }
+  .nav-links a{ font-size:13.5px; color:var(--ink-soft); font-weight:600; padding:10px 0; }
   .nav-links a:hover{ color:var(--glow); }
   .btn-contact{
     font-size:12.5px; font-weight:700; letter-spacing:.04em; text-transform:uppercase;
-    padding:10px 20px; border:1px solid var(--ink); color:var(--ink); transition:all .2s ease;
+    padding:11px 20px; border:1px solid var(--ink); color:var(--ink); transition:all .2s ease;
+    flex:none; min-height:40px; display:inline-flex; align-items:center;
   }
   .btn-contact:hover{ border-color:var(--red-soft); color:var(--red-soft); }
 
+  .nav-burger{
+    display:none; all:unset; cursor:pointer; width:40px; height:40px; flex:none;
+    align-items:center; justify-content:center; border:1px solid var(--fog-line); border-radius:8px;
+  }
+  .nav-burger span{ position:relative; width:18px; height:1.5px; background:var(--ink); display:block; }
+  .nav-burger span::before,.nav-burger span::after{
+    content:""; position:absolute; left:0; width:18px; height:1.5px; background:var(--ink); transition:transform .3s var(--ease,ease), top .3s var(--ease,ease);
+  }
+  .nav-burger span::before{ top:-6px; } .nav-burger span::after{ top:6px; }
+  .nav-burger[aria-expanded="true"] span{ background:transparent; }
+  .nav-burger[aria-expanded="true"] span::before{ top:0; transform:rotate(45deg); }
+  .nav-burger[aria-expanded="true"] span::after{ top:0; transform:rotate(-45deg); }
+
+  @media (max-width:880px){
+    .nav-burger{ display:flex; }
+    .nav-links{
+      position:fixed; inset:66px 0 auto 0; z-index:49; flex-direction:column; align-items:stretch; gap:0;
+      background:rgba(14,21,32,0.98); backdrop-filter:blur(14px); border-bottom:1px solid var(--fog-line);
+      max-height:0; overflow:hidden; opacity:0; visibility:hidden;
+      transition:max-height .4s var(--ease,ease), opacity .3s ease, visibility 0s linear .4s;
+      padding:0 6vw;
+    }
+    .nav-links.open{ max-height:70vh; opacity:1; visibility:visible; transition:max-height .4s var(--ease,ease), opacity .3s ease; overflow-y:auto; }
+    .nav-links a{ padding:16px 4px; border-bottom:1px solid var(--fog-line); font-size:15px; }
+    .nav-links a::after{ display:none; }
+  }
+
   /* ---------- hero ---------- */
-  #hero{ padding-top:80px; padding-bottom:70px; }
-  .hero-grid{ display:grid; grid-template-columns:220px 1fr; gap:50px; align-items:center; }
+  #hero{ padding-top:80px; padding-bottom:70px; position:relative; overflow:hidden; }
+  #hero::before{
+    content:""; position:absolute; top:-220px; right:-160px; width:560px; height:560px; z-index:0;
+    background:radial-gradient(circle, rgba(196,69,58,.16), transparent 68%); pointer-events:none;
+  }
+  #hero::after{
+    content:""; position:absolute; bottom:-260px; left:-180px; width:480px; height:480px; z-index:0;
+    background:radial-gradient(circle, rgba(159,196,222,.10), transparent 70%); pointer-events:none;
+  }
+  .hero-grid{ display:grid; grid-template-columns:220px 1fr; gap:50px; align-items:center; position:relative; z-index:1; }
   @media (max-width:680px){ .hero-grid{ grid-template-columns:1fr; } }
+  .scroll-cue{
+    display:flex; align-items:center; gap:10px; margin-top:54px; position:relative; z-index:1;
+    font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--mist-soft);
+  }
+  .scroll-cue .line{ width:28px; height:1px; background:var(--fog-line); position:relative; overflow:hidden; }
+  .scroll-cue .line::after{
+    content:""; position:absolute; inset:0; width:10px; background:var(--glow);
+    animation:scrollcue 2.2s var(--ease,ease) infinite;
+  }
+  @keyframes scrollcue{ 0%{ transform:translateX(-10px); } 100%{ transform:translateX(38px); } }
   .avatar{
     width:220px; height:220px; border-radius:6px; border:1px solid var(--fog-line);
     background:linear-gradient(150deg, var(--navy-panel), var(--navy));
     display:flex; align-items:center; justify-content:center;
-    font-family:'Cormorant Garamond',serif; font-size:64px; color:var(--red-soft);
+    font-family:'Fraunces',serif; font-optical-sizing:auto; font-size:64px; color:var(--red-soft);
     position:relative; overflow:hidden;
   }
   .avatar img{
@@ -69,10 +117,11 @@
     content:"☂"; position:absolute; bottom:-10px; right:-6px; font-size:70px; color:var(--fog-line); opacity:.6;
   }
   .badge{
-    display:inline-block; font-size:12px; letter-spacing:.08em; text-transform:uppercase;
-    border:1px solid var(--glow); color:var(--glow); padding:6px 16px; border-radius:999px; margin-bottom:18px;
+    display:inline-flex; align-items:center; gap:7px; font-size:11.5px; letter-spacing:.1em; text-transform:uppercase;
+    border:1px solid var(--glow); color:var(--glow); padding:6px 16px 6px 12px; border-radius:999px; margin-bottom:20px;
   }
-  #hero h1{ font-size:clamp(36px,5vw,56px); line-height:1.05; color:var(--ink); }
+  .badge::before{ content:""; width:6px; height:6px; border-radius:50%; background:var(--glow); box-shadow:0 0 8px var(--glow); }
+  #hero h1{ font-size:clamp(38px,5.4vw,60px); line-height:1.03; letter-spacing:-.01em; color:var(--ink); text-wrap:balance; }
   .roles{ margin-top:14px; font-size:15px; color:var(--ink-soft); letter-spacing:.02em; }
   .roles .dot{ color:var(--red-soft); margin:0 8px; }
   .contact-row{ margin-top:22px; display:flex; gap:24px; flex-wrap:wrap; font-size:13.5px; color:var(--mist-soft); }
@@ -85,13 +134,14 @@
   }
   @media (max-width:680px){ .stats{ grid-template-columns:repeat(2,1fr); } }
   .stat{ background:var(--navy); padding:24px 20px; }
-  .stat .num{ font-family:'Cormorant Garamond',serif; font-size:34px; color:var(--red-soft); }
+  .stat .num{ font-family:'Fraunces',serif; font-optical-sizing:auto; font-size:34px; color:var(--red-soft); }
   .stat .label{ font-size:12.5px; color:var(--mist-soft); margin-top:6px; letter-spacing:.02em; }
 
   /* ---------- section label ---------- */
-  .section-label{ display:flex; align-items:baseline; gap:16px; margin-bottom:46px; }
-  .section-label .eyebrow{ font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--red-soft); }
-  .section-label h2{ font-size:30px; color:var(--ink); }
+  .section-label{ display:flex; align-items:baseline; gap:18px; margin-bottom:50px; }
+  .section-label .idx{ font-family:'Fraunces',serif; font-optical-sizing:auto; font-size:15px; color:var(--fog-line); letter-spacing:.04em; }
+  .section-label .eyebrow{ font-size:11.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--red-soft); font-weight:700; }
+  .section-label h2{ font-size:clamp(26px,3.2vw,36px); letter-spacing:-.01em; color:var(--ink); text-wrap:balance; }
   .section-label .rule{ flex:1; height:1px; background:var(--fog-line); }
 
   /* ---------- core expertise ---------- */
@@ -99,18 +149,20 @@
   @media (max-width:780px){ .core-categories{ grid-template-columns:repeat(2,1fr); } }
   @media (max-width:520px){ .core-categories{ grid-template-columns:1fr; } }
   .core-cat{
-    background:var(--navy); border:1px solid var(--fog-line); border-radius:14px;
+    background:linear-gradient(165deg, var(--navy) 0%, var(--navy-panel) 180%);
+    border:1px solid var(--fog-line); border-radius:14px;
     padding:24px 22px; transition:border-color .2s ease;
   }
   .core-cat:hover{ border-color:var(--glow); }
-  .core-cat-head{ display:flex; align-items:center; gap:10px; margin-bottom:18px; }
+  .core-cat-head{ display:flex; align-items:center; gap:11px; margin-bottom:18px; }
   .core-cat-head .bar{ width:4px; height:18px; border-radius:2px; background:var(--glow); flex:none; }
+  .core-cat-head .ic{ font-size:15px; color:var(--red-soft); flex:none; line-height:1; }
   .core-cat-head h3{
-    font-family:'Manrope',sans-serif; font-size:15px; font-weight:800; color:var(--ink); letter-spacing:.01em;
+    font-family:'Plus Jakarta Sans',sans-serif; font-size:15px; font-weight:700; color:var(--ink); letter-spacing:.005em;
   }
   .core-tags{ display:flex; flex-wrap:wrap; gap:8px; }
   .core-tags span{
-    font-family:'SF Mono','Consolas',monospace; font-size:12px; color:var(--ink-soft);
+    font-family:'JetBrains Mono','SF Mono','Consolas',monospace; font-size:12px; color:var(--ink-soft);
     background:var(--navy-panel); border:1px solid var(--fog-line);
     padding:8px 12px; border-radius:8px;
   }
@@ -122,9 +174,27 @@
     padding:26px 0; border-bottom:1px solid var(--fog-line);
   }
   @media (max-width:600px){ .project-row{ grid-template-columns:1fr; gap:8px; } }
-  .project-row .pnum{ font-family:'Cormorant Garamond',serif; font-size:22px; color:var(--red-soft); }
+  .project-row .pnum{ font-family:'Fraunces',serif; font-optical-sizing:auto; font-size:22px; color:var(--red-soft); }
+  .project-top{ display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; }
   .project-row h3{ font-size:19px; color:var(--ink); }
+  .project-period{ font-size:11.5px; color:var(--glow); letter-spacing:.04em; text-transform:uppercase; white-space:nowrap; }
   .project-row p{ font-size:14px; color:var(--ink-soft); margin-top:8px; line-height:1.7; max-width:560px; }
+  .chip.org{ color:var(--red-soft); border-color:var(--red-soft); }
+  .more-project{ display:none; }
+  .more-project.show{ display:grid; animation:rowIn .5s var(--ease, ease) both; }
+  @keyframes rowIn{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:none; } }
+  .more-btn{
+    all:unset; cursor:pointer; display:flex; align-items:center; gap:8px; justify-content:center;
+    margin:30px auto 0; padding:12px 26px; border:1px solid var(--fog-line); border-radius:999px;
+    font-size:12.5px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--ink-soft);
+    transition:all .35s var(--ease,ease); min-height:44px; box-sizing:border-box;
+  }
+  .more-btn:hover{ border-color:var(--glow); color:var(--glow); }
+  .more-btn:active{ transform:scale(.97); }
+  .more-btn .chev{ transition:transform .35s var(--ease,ease); font-size:14px; }
+  .more-btn[aria-expanded="true"] .chev{ transform:rotate(180deg); }
+  .more-btn[aria-expanded="true"] span:first-child{ display:none; }
+  .more-btn[aria-expanded="true"]::after{ content:"Show Less"; }
   .project-tags{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
   .chip{ font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:var(--mist-soft); border:1px solid var(--fog-line); padding:5px 10px; }
 
@@ -150,7 +220,7 @@
     border-top:1px solid var(--fog-line); padding:50px 8vw; margin-top:20px;
     display:flex; justify-content:space-between; flex-wrap:wrap; gap:20px;
   }
-  footer .fname{ font-family:'Cormorant Garamond',serif; font-size:20px; color:var(--ink); }
+  footer .fname{ font-family:'Fraunces',serif; font-optical-sizing:auto; font-size:20px; color:var(--ink); }
   footer .froles{ font-size:12.5px; color:var(--mist-soft); margin-top:6px; max-width:420px; }
   footer .fcopy{ font-size:12px; color:var(--mist-soft); margin-top:10px; }
   footer .fcontact{ font-size:13px; color:var(--ink-soft); display:flex; flex-direction:column; gap:8px; align-items:flex-end; }
@@ -186,16 +256,30 @@
   .cert[hidden]{ display:none; }
   .cert.featured{ border-color:var(--red-soft); }
   .cert .tag{ font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--red-soft); }
-  .cert h3{ font-family:'Manrope',sans-serif; font-size:15px; font-weight:800; color:var(--ink); text-wrap:balance; }
+  .cert h3{ font-family:'Plus Jakarta Sans',sans-serif; font-size:15px; font-weight:700; color:var(--ink); text-wrap:balance; }
   .cert .issuer{ font-size:13px; color:var(--mist-soft); }
   .cert ul{ margin:4px 0 0; padding-left:16px; font-size:12.5px; color:var(--ink-soft); line-height:1.6; }
   .cert .view{ all:unset; cursor:pointer; margin-top:auto; padding-top:10px; font-size:12.5px; font-weight:700; color:var(--glow); }
   .cert .view:hover{ text-decoration:underline; }
-  dialog#lb{ background:var(--navy); color:var(--ink); border:1px solid var(--fog-line); border-radius:14px; padding:14px; max-width:92vw; overscroll-behavior:contain; }
-  dialog#lb::backdrop{ background:rgba(6,10,16,.82); backdrop-filter:blur(4px); }
-  dialog#lb img{ width:auto; height:auto; display:block; max-width:86vw; max-height:78vh; }
-  dialog#lb p{ margin:10px 4px 0; font-size:13px; color:var(--mist-soft); }
-  dialog#lb .x{ all:unset; cursor:pointer; position:absolute; top:8px; right:12px; font-size:18px; color:var(--ink); background:rgba(14,21,32,.7); padding:2px 8px; border-radius:6px; }
+  .lb{
+    position:fixed; inset:0; z-index:200; display:flex; align-items:center; justify-content:center;
+    padding:24px; opacity:0; visibility:hidden; transition:opacity .3s ease, visibility 0s linear .3s;
+    background:rgba(6,10,16,.86); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
+  }
+  .lb.open{ opacity:1; visibility:visible; transition:opacity .3s ease; }
+  .lb-card{
+    background:var(--navy); color:var(--ink); border:1px solid var(--fog-line); border-radius:14px; padding:14px;
+    max-width:92vw; max-height:88vh; overflow:auto; -webkit-overflow-scrolling:touch; position:relative;
+    transform:scale(.96); transition:transform .3s var(--ease,ease);
+  }
+  .lb.open .lb-card{ transform:scale(1); }
+  .lb-card img{ width:auto; height:auto; display:block; max-width:86vw; max-height:74vh; border-radius:4px; }
+  .lb-card p{ margin:10px 4px 0; font-size:13px; color:var(--mist-soft); }
+  .lb-card .x{
+    all:unset; cursor:pointer; position:absolute; top:8px; right:8px; font-size:18px; line-height:1;
+    color:var(--ink); background:rgba(14,21,32,.8); padding:8px 11px; border-radius:8px; min-width:36px; min-height:36px;
+    display:flex; align-items:center; justify-content:center;
+  }
   @media (prefers-reduced-motion:reduce){ html{ scroll-behavior:auto; } .js .reveal{ opacity:1; transform:none; } *{ transition:none !important; } }
 
   :root{ --ease:cubic-bezier(.22,1,.36,1); --spot: rgba(159,196,222,.16); }
@@ -237,7 +321,7 @@
 
   .stat{ transition:background .35s var(--ease); }
   .stat:hover{ background:var(--navy-panel); }
-  .stat .num{ font-variant-numeric:tabular-nums; }
+  .stat .num{ font-variant-numeric:tabular-nums; font-weight:500; }
 
   .link-card{ position:relative; overflow:hidden; }
   .link-card::after{
@@ -258,6 +342,25 @@
   .js .reveal.in{ filter:blur(0); transition:opacity .8s var(--ease), transform .8s var(--ease), filter .8s var(--ease); }
 
   @media (hover:none){ [data-spot]::before{ display:none; } .avatar-shell{ transform:none !important; } }
+
+  .marquee{
+    position:relative; overflow:hidden; margin:0 0 56px;
+    -webkit-mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  .marquee-track{
+    display:flex; align-items:center; gap:0; width:max-content;
+    animation:marquee 28s linear infinite;
+  }
+  .marquee:hover .marquee-track{ animation-play-state:paused; }
+  .marquee-item{
+    display:flex; align-items:center; gap:10px; padding:0 34px; white-space:nowrap;
+    font-family:'Plus Jakarta Sans',sans-serif; font-size:14px; font-weight:700; letter-spacing:.03em; color:var(--mist-soft);
+    border-right:1px solid var(--fog-line);
+  }
+  .marquee-item .dot{ width:5px; height:5px; border-radius:50%; background:var(--red-soft); flex:none; }
+  @keyframes marquee{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+  @media (prefers-reduced-motion:reduce){ .marquee-track{ animation:none; } }
 </style>
 </head>
 <body>
@@ -266,7 +369,8 @@
 
   <nav class="topnav">
     <div class="brand"><span class="umbrella">☂</span><span class="name">Supakrit Sirivat</span></div>
-    <div class="nav-links">
+    <button class="nav-burger" id="navBurger" aria-expanded="false" aria-controls="navLinks" aria-label="Toggle menu"><span></span></button>
+    <div class="nav-links" id="navLinks">
       <a href="#core">Core</a>
       <a href="#projects">Project</a>
       <a href="#experience">Experience</a>
@@ -284,11 +388,12 @@
       <div>
         <div class="badge">Full Stack Data and Business Consult</div>
         <h1>Supakrit Sirivat</h1>
-        <div class="roles">Senior Business Analytics <span class="dot">•</span> Data Solution &amp; Architecture <span class="dot">•</span> Data Governance <span class="dot">•</span> Data Management  <span class="dot">•</span> Data Scientist <span class="dot">•</span> Data Engineer</div>
+            <div class="roles">Senior Business Analytics <span class="dot">•</span> Data Solution &amp; Architecture <span class="dot">•</span> Data Governance <span class="dot">•</span> Data Management  <span class="dot">•</span> Data Scientist <span class="dot">•</span> Data Engineer</div>
         <div class="contact-row">
           <a href="tel:+66856178255">+66 85-617-8255</a>
           <a href="mailto:supakritsirivat@gmail.com">supakritsirivat@gmail.com</a>
         </div>
+        <div class="scroll-cue"><span class="line"></span>Scroll to explore</div>
       </div>
     </div>
     <div class="stats" id="stats">
@@ -300,75 +405,161 @@
   </section>
 
   <section id="core">
-    <div class="section-label"><span class="eyebrow">Core Expertise</span><h2>technical skills</h2><span class="rule"></span></div>
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track"><span class="marquee-item"><span class="dot"></span>Microsoft Azure</span><span class="marquee-item"><span class="dot"></span>Microsoft Fabric</span><span class="marquee-item"><span class="dot"></span>Power BI</span><span class="marquee-item"><span class="dot"></span>SAP</span><span class="marquee-item"><span class="dot"></span>Tableau</span><span class="marquee-item"><span class="dot"></span>Salesforce</span><span class="marquee-item"><span class="dot"></span>GCP</span><span class="marquee-item"><span class="dot"></span>Odoo</span><span class="marquee-item"><span class="dot"></span>PostgreSQL</span><span class="marquee-item"><span class="dot"></span>Python</span><span class="marquee-item"><span class="dot"></span>Microsoft Azure</span><span class="marquee-item"><span class="dot"></span>Microsoft Fabric</span><span class="marquee-item"><span class="dot"></span>Power BI</span><span class="marquee-item"><span class="dot"></span>SAP</span><span class="marquee-item"><span class="dot"></span>Tableau</span><span class="marquee-item"><span class="dot"></span>Salesforce</span><span class="marquee-item"><span class="dot"></span>GCP</span><span class="marquee-item"><span class="dot"></span>Odoo</span><span class="marquee-item"><span class="dot"></span>PostgreSQL</span><span class="marquee-item"><span class="dot"></span>Python</span></div>
+    </div>
+    <div class="section-label"><span class="idx">01</span><span class="eyebrow">Core Expertise</span><h2>technical skills</h2><span class="rule"></span></div>
     <div class="core-categories">
       <div class="core-cat" data-spot>
-        <div class="core-cat-head"><span class="bar"></span><h3>Business Domain</h3></div>
+        <div class="core-cat-head"><span class="bar"></span><span class="ic">◆</span><h3>Business Domain</h3></div>
         <div class="core-tags"><span>Stakeholder & Vendor Management</span><span>Coordination</span><span>Business Analyst</span><span>User Requirement</span></div>
       </div>
       <div class="core-cat" data-spot>
-        <div class="core-cat-head"><span class="bar"></span><h3>Cloud &amp; Database</h3></div>
+        <div class="core-cat-head"><span class="bar"></span><span class="ic">☁</span><h3>Cloud &amp; DWH</h3></div>
         <div class="core-tags"><span>Microsoft Azure</span><span>Microsoft Fabric</span><span>GCP</span><span>Databrick</span><span>SQL Server</span><span>MongoDB</span></div>
       </div>
       <div class="core-cat" data-spot>
-        <div class="core-cat-head"><span class="bar"></span><h3>Analytics &amp; BI</h3></div>
+        <div class="core-cat-head"><span class="bar"></span><span class="ic">▦</span><h3>Analytics &amp; BI</h3></div>
         <div class="core-tags"><span>Power BI</span><span>Tableau Cloud</span><span>SAP Data Service</span><span>Synapse Analytic</span><span>DAX</span><span>R</span><span>Audit Log</span></div>
       </div>
       <div class="core-cat" data-spot>
-        <div class="core-cat-head"><span class="bar"></span><h3>Governance &amp; Management</h3></div>
+        <div class="core-cat-head"><span class="bar"></span><span class="ic">◈</span><h3>Governance &amp; Management</h3></div>
         <div class="core-tags"><span>Data Governance</span><span>DMBOK</span><span>Project Management</span><span>Knowledge Catalog</span><span>Microsoft Purview</span></div>
       </div>
       <div class="core-cat" data-spot>
-        <div class="core-cat-head"><span class="bar"></span><h3>Programming &amp; ML</h3></div>
-        <div class="core-tags"><span>Python</span><span>SQL</span><span>PyTorch</span><span>TensorFlow</span><span>Vertex AI</span><span>Gemini Enterprise</span><span>Claude Code</span><span>Vibe code</span></div>
+        <div class="core-cat-head"><span class="bar"></span><span class="ic">⌥</span><h3>Programming &amp; ML</h3></div>
+         <div class="core-tags"><span>Python</span><span>SQL</span><span>PyTorch</span><span>TensorFlow</span><span>Vertex AI</span><span>Gemini Enterprise</span><span>Claude Code</span><span>Vibe code</span></div>
       </div>
       <div class="core-cat" data-spot>
-        <div class="core-cat-head"><span class="bar"></span><h3>CRM &amp; ERP</h3></div>
-        <div class="core-tags"><span>SAP</span><span>Salesforce</span><span>Odoo</span><span>On-prem</span><span>POS</span></div>
+        <div class="core-cat-head"><span class="bar"></span><span class="ic">⇄</span><h3>CRM &amp; ERP</h3></div>
+        <div class="core-tags"><span>SAP S/4HANA</span><span>Salesforce</span><span>Odoo</span><span>On-prem</span><span>POS</span></div>
       </div>
     </div>
   </section>
 
   <section id="projects">
-    <div class="section-label"><span class="eyebrow">Hands On</span><h2>project </h2><span class="rule"></span></div>
-    <div class="project-list">
+    <div class="section-label"><span class="idx">02</span><span class="eyebrow">Hands On</span><h2>project</h2><span class="rule"></span></div>
+    <div class="project-list" id="project-list">
       <div class="project-row">
         <div class="pnum">01</div>
         <div>
-          <h3>Enterprise CRM Data Integration</h3>
-          <p>Designed the CRM data solution and led data integration from legacy on-premise systems to Salesforce, supporting analytics and operational reporting across Industrial, Commercial, Residential, and One Bangkok business units at Frasers Property.</p>
-          <div class="project-tags"><span class="chip">Salesforce</span><span class="chip">Azure Synapse</span><span class="chip">SAP Data Services</span></div>
+          <div class="project-top"><h3>One Bangkok Data Project</h3><span class="project-period">Oct 2025 — Sep 2026</span></div>
+          <p>Designed the enterprise data architecture for a major integration initiative, led the integration workstream with infrastructure teams, and coordinated approvals for Solution Impact, Technology Risk, and Enterprise Architecture reviews.</p>
+          <div class="project-tags"><span class="chip">Data Architecture</span><span class="chip">Enterprise Integration</span><span class="chip org">Frasers Property Limited</span></div>
         </div>
       </div>
       <div class="project-row">
         <div class="pnum">02</div>
         <div>
-          <h3>Organization-wide Data Governance Policy</h3>
-          <p>Developed a comprehensive Data Governance Policy with project managers and executive leadership to ensure effective management, protection, and utilization of company data assets.</p>
-          <div class="project-tags"><span class="chip">Data Governance</span><span class="chip">Policy Design</span></div>
+          <div class="project-top"><h3>Develop Datamart and Analytic Platform Management</h3><span class="project-period">Jan 2024 — Present</span></div>
+          <p>Built curated datamarts using low-code Azure/Fabric pipelines and SQL-based transformations on Azure SQL Database for Power BI and Tableau Cloud reporting. Provisioned and manages the enterprise analytical platform, including licensing, permissions, and row-level security.</p>
+          <div class="project-tags"><span class="chip">Power BI</span><span class="chip">Tableau Cloud</span><span class="chip">Azure Fabric</span><span class="chip org">Frasers Property Limited</span></div>
         </div>
       </div>
       <div class="project-row">
         <div class="pnum">03</div>
         <div>
-          <h3>Enterprise Datamart &amp; BI Platform</h3>
-          <p>Built curated datamarts on Azure SQL Database and Power BI / Tableau dashboards for Sales, Purchasing, Inventory, Accounting, and HR — enabling real-time and monthly performance monitoring.</p>
-          <div class="project-tags"><span class="chip">Power BI</span><span class="chip">Tableau</span><span class="chip">Azure SQL</span></div>
+          <div class="project-top"><h3>Enterprise Dataplatform Management</h3><span class="project-period">Jan 2024 — Present</span></div>
+          <p>Designed enterprise data architecture supporting analytics and decision-making across Industrial, Commercial, and Real Estate business units. Led end-to-end data ingestion into the Enterprise Data Platform and manages data-sharing documentation and governance approvals.</p>
+          <div class="project-tags"><span class="chip">Data Architecture</span><span class="chip">Data Governance</span><span class="chip org">Frasers Property Limited</span></div>
         </div>
       </div>
       <div class="project-row">
         <div class="pnum">04</div>
         <div>
-          <h3>Membership Inference Attack on Tabular Data</h3>
-          <p>MSc dissertation researching machine learning vulnerability to Membership Inference Attacks. Designed a multi-stage Target/Shadow/Attack model pipeline in Python, scikit-learn, and PyTorch across multiple classifiers.</p>
-          <div class="project-tags"><span class="chip">PyTorch</span><span class="chip">scikit-learn</span><span class="chip">Research</span></div>
+          <div class="project-top"><h3>Marketing and Business Performance Analytics for Residential</h3><span class="project-period">2024 — Present</span></div>
+          <p>Implemented executive dashboards on CRM data tracking marketing lead conversion and customer acquisition. Integrated CRM with sales and transfer data for end-to-end customer-journey visibility, including channel attribution and demographic cluster analysis.</p>
+          <div class="project-tags"><span class="chip">Power BI</span><span class="chip">CRM Analytics</span><span class="chip org">Frasers Property Limited</span></div>
+        </div>
+      </div>
+      <div class="project-row more-project">
+        <div class="pnum">05</div>
+        <div>
+          <div class="project-top"><h3>CRM Migration to SaaS CRM</h3><span class="project-period">Oct 2024 — Sep 2025</span></div>
+          <p>Led the CRM data solution design and end-to-end data integration from legacy on-premise CRM to a cloud CRM, coordinating vendors and infrastructure teams through UAT, API testing, and production deployment.</p>
+          <div class="project-tags"><span class="chip">Salesforce CRM Analytics</span><span class="chip">Data Integration</span><span class="chip org">Frasers Property Limited</span></div>
+        </div>
+      </div>
+      <div class="project-row more-project">
+        <div class="pnum">06</div>
+        <div>
+          <div class="project-top"><h3>CSAT and NPS Analytics for Real Estate and Condominium</h3><span class="project-period">Oct 2024 — Sep 2025</span></div>
+          <p>Automated a traditional manual survey process into a data workflow analyzing Customer CSAT and NPS for the Residential and Condominium business unit, summarized for board-level reporting.</p>
+          <div class="project-tags"><span class="chip">Customer Analytics</span><span class="chip">Automation</span><span class="chip org">Frasers Property Limited</span></div>
+        </div>
+      </div>
+      <div class="project-row more-project">
+        <div class="pnum">07</div>
+        <div>
+          <div class="project-top"><h3>End-to-End BI Solution &amp; Training for Venue and Co-event Space Business</h3><span class="project-period">Oct 2024 — Sep 2025</span></div>
+          <p>Owned a Power BI engagement end to end — requirements discovery, star-schema data modeling and ETL, multi-page dashboard build, and a hands-on workshop enabling business users to self-serve.</p>
+          <div class="project-tags"><span class="chip">Power BI</span><span class="chip">Data Modeling</span><span class="chip">Training</span><span class="chip org">Frasers Property Limited</span></div>
+        </div>
+      </div>
+      <div class="project-row more-project">
+        <div class="pnum">08</div>
+        <div>
+          <div class="project-top"><h3>On-prem Analytic Platform Migration to Cloud</h3><span class="project-period">Oct 2024 — Sep 2025</span></div>
+          <p>Prepared governance documentation (SIA, TRA, EAR, CR), provisioned UAT/PRD user groups, and migrated dashboards, data sources, and licenses to the cloud analytics platform.</p>
+          <div class="project-tags"><span class="chip">Cloud Migration</span><span class="chip">Governance</span><span class="chip org">Frasers Property Limited</span></div>
+        </div>
+      </div>
+      <div class="project-row more-project">
+        <div class="pnum">09</div>
+        <div>
+          <div class="project-top"><h3>Data Governance Policy Development</h3><span class="project-period">Jan 2024 — Sep 2024</span></div>
+          <p>Developed a comprehensive Data Governance Policy with project managers and executive leadership, ensuring effective management, protection, and utilization of company data assets.</p>
+          <div class="project-tags"><span class="chip">Data Governance</span><span class="chip">Policy Design</span><span class="chip org">Frasers Property Limited</span></div>
+        </div>
+      </div>
+      <div class="project-row more-project">
+        <div class="pnum">10</div>
+        <div>
+          <div class="project-top"><h3>On-prem CRM Data Project</h3><span class="project-period">Jan 2024 — Sep 2024</span></div>
+          <p>Gathered requirements from Marketing stakeholders through to executive dashboard delivery, including data integration into the Enterprise Data Platform and UAT through deployment.</p>
+          <div class="project-tags"><span class="chip">CRM Integration</span><span class="chip">Project Management</span><span class="chip org">Frasers Property Limited</span></div>
+        </div>
+      </div>
+      <div class="project-row more-project">
+        <div class="pnum">11</div>
+        <div>
+          <div class="project-top"><h3>Odoo ERP Module and BI Analytics</h3><span class="project-period">Aug 2021 — Dec 2023</span></div>
+          <p>Built and maintained ETL pipelines extracting data from Odoo, transforming via Python, and loading into the data warehouse, with data quality checks across every pipeline.</p>
+          <div class="project-tags"><span class="chip">Odoo</span><span class="chip">ETL</span><span class="chip">Python</span><span class="chip org">Ecobz Thai Co., Ltd</span></div>
+        </div>
+      </div>
+      <div class="project-row more-project">
+        <div class="pnum">12</div>
+        <div>
+          <div class="project-top"><h3>Data Vault Implementation</h3><span class="project-period">Sep 2022 — Sep 2023</span></div>
+          <p>Implemented a Data Vault using Python for ETL/staging and PostgreSQL for the vault structure, centralizing scattered data from multiple sources with hashing for privacy.</p>
+          <div class="project-tags"><span class="chip">Data Vault</span><span class="chip">PostgreSQL</span><span class="chip org">University of Birmingham</span></div>
+        </div>
+      </div>
+      <div class="project-row more-project">
+        <div class="pnum">13</div>
+        <div>
+          <div class="project-top"><h3>Economic Impact Analysis of Natural Disasters</h3><span class="project-period">Sep 2022 — Sep 2023</span></div>
+          <p>Group analysis of the economic impact of natural disasters across regions of varying economic size, identifying key contributing factors as part of the MSc Data Science program.</p>
+          <div class="project-tags"><span class="chip">Statistical Modeling</span><span class="chip">Time Series</span><span class="chip org">University of Birmingham</span></div>
+        </div>
+      </div>
+      <div class="project-row more-project">
+        <div class="pnum">14</div>
+        <div>
+          <div class="project-top"><h3>Membership Inference Attack on ML Model</h3><span class="project-period">Sep 2022 — Sep 2023</span></div>
+          <p>MSc dissertation researching machine learning vulnerability to Membership Inference Attacks on tabular data — a multi-stage Target/Shadow/Attack pipeline evaluated across Logistic Regression, k-NN, SVC, and XGBoost.</p>
+          <div class="project-tags"><span class="chip">PyTorch</span><span class="chip">scikit-learn</span><span class="chip">Research</span><span class="chip org">University of Birmingham</span></div>
         </div>
       </div>
     </div>
+    <button class="more-btn" type="button" id="projects-toggle" aria-expanded="false" aria-controls="project-list">
+      <span>Click for More</span><span class="chev">⌄</span>
+    </button>
   </section>
 
   <section id="experience">
-    <div class="section-label"><span class="eyebrow">In Business</span><h2>professional experience</h2><span class="rule"></span></div>
+    <div class="section-label"><span class="idx">03</span><span class="eyebrow">In Business</span><h2>professional experience</h2><span class="rule"></span></div>
     <div class="exp-list">
       <div class="exp-entry">
         <div class="exp-top"><h3 class="exp-org">Frasers Property Thailand PCL.</h3><span class="exp-period">Jan 2024 — Present</span></div>
@@ -389,7 +580,7 @@
   </section>
 
   <section id="education">
-    <div class="section-label"><span class="eyebrow">Academic Background</span><h2>education</h2><span class="rule"></span></div>
+    <div class="section-label"><span class="idx">04</span><span class="eyebrow">Academic Background</span><h2>education</h2><span class="rule"></span></div>
     <div class="exp-list">
       <div class="exp-entry">
         <div class="exp-top"><h3 class="exp-org">University of Birmingham — Dubai, UAE</h3><span class="exp-period">Sep 2022 — Nov 2023</span></div>
@@ -405,7 +596,7 @@
   </section>
 
   <section id="gallery">
-    <div class="section-label"><span class="eyebrow">Moments</span><h2>gallery</h2><span class="rule"></span></div>
+    <div class="section-label"><span class="idx">05</span><span class="eyebrow">Moments</span><h2>gallery</h2><span class="rule"></span></div>
     <div class="gallery">
       <figure class="g-item reveal" data-spot><button class="g-btn" type="button" data-lb data-src="gallery-cdmp.jpg" data-cap="CDMP celebration with fellow certified data management professionals"><img src="gallery-cdmp.jpg" alt="Group photo of newly certified data management professionals in front of a DAMA congratulations backdrop" width="1600" height="1200" loading="lazy"></button><figcaption>CDMP celebration with fellow certified professionals</figcaption></figure>
       <figure class="g-item reveal" data-spot><a class="g-btn" href="artist.html"><img src="identity.jpg" alt="Illustration of two figures under a red umbrella on a rainy rooftop above a misty city" width="2048" height="1206" loading="lazy"></a><figcaption>NEONY LOUNGE — the rooftop artwork</figcaption></figure>
@@ -413,7 +604,7 @@
   </section>
 
   <section id="certificates">
-    <div class="section-label"><span class="eyebrow">Credentials</span><h2>certificates</h2><span class="rule"></span></div>
+    <div class="section-label"><span class="idx">06</span><span class="eyebrow">Credentials</span><h2>certificates</h2><span class="rule"></span></div>
     <div class="filters" role="group" aria-label="Filter certificates">
       <button type="button" data-f="all" aria-pressed="true">All</button>
       <button type="button" data-f="data" aria-pressed="false">Data</button>
@@ -430,10 +621,16 @@
     </div>
   </section>
 
-  <dialog id="lb" aria-label="Image viewer"><button class="x" type="button" aria-label="Close">✕</button><img alt="" width="1053" height="745"><p></p></dialog>
+  <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Image viewer">
+    <div class="lb-card">
+      <button class="x" type="button" aria-label="Close">✕</button>
+      <img alt="">
+      <p></p>
+    </div>
+  </div>
 
   <section id="links">
-    <div class="section-label"><span class="eyebrow">Elsewhere</span><h2>social</h2><span class="rule"></span></div>
+    <div class="section-label"><span class="idx">07</span><span class="eyebrow">Elsewhere</span><h2>social</h2><span class="rule"></span></div>
     <div class="link-grid">
       <a class="link-card" href="artist.html"><span class="icon">☂</span><span class="label">NEONY LOUNGE</span><span class="sub">creative portfolio</span></a>
       <a class="link-card" href="https://www.instagram.com/kris.soju/"><span class="icon">◎</span><span class="label">Instagram</span><span class="sub">@kris.soju</span></a>
@@ -445,7 +642,7 @@
   <footer id="footer">
     <div>
       <div class="fname">Supakrit Sirivat</div>
-      <div class="froles">Senior Business Analytics • Data Solution &amp; Architecture • Data Governance • Data Management • Data Scientist • Data Engineer</div>
+       <div class="froles">Senior Business Analytics • Data Solution &amp; Architecture • Data Governance • Data Management • Data Scientist • Data Engineer</div>
       <div class="fcopy">© 2026 Supakrit Sirivat. All rights reserved.</div>
     </div>
     <div class="fcontact">
@@ -465,10 +662,39 @@
     document.querySelectorAll('.filters button').forEach(o=>o.setAttribute('aria-pressed',o===b));
     document.querySelectorAll('.cert').forEach(c=>c.hidden=b.dataset.f!=='all'&&c.dataset.cat!==b.dataset.f);
   }));
+  const navBurger=document.getElementById('navBurger'), navLinks=document.getElementById('navLinks');
+  navBurger.addEventListener('click', ()=>{
+    const open = navLinks.classList.toggle('open');
+    navBurger.setAttribute('aria-expanded', open);
+  });
+  navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>{ navLinks.classList.remove('open'); navBurger.setAttribute('aria-expanded','false'); }));
+
+  const moreBtn=document.getElementById('projects-toggle');
+  if(moreBtn){
+    moreBtn.addEventListener('click', ()=>{
+      const expand = moreBtn.getAttribute('aria-expanded') !== 'true';
+      moreBtn.setAttribute('aria-expanded', expand);
+      document.querySelectorAll('.more-project').forEach(r=>r.classList.toggle('show', expand));
+      if(!expand){ document.getElementById('projects').scrollIntoView({block:'start'}); }
+    });
+  }
+
   const lb=document.getElementById('lb'),lbi=lb.querySelector('img'),lbp=lb.querySelector('p');
-  document.querySelectorAll('[data-lb]').forEach(b=>b.addEventListener('click',()=>{lbi.src=b.dataset.src;lbi.alt=b.dataset.cap;lbp.textContent=b.dataset.cap;lb.showModal();}));
-  lb.querySelector('.x').addEventListener('click',()=>lb.close());
-  lb.addEventListener('click',e=>{if(e.target===lb)lb.close();});
+  let lastFocus=null;
+  function openLb(src,cap){
+    lastFocus=document.activeElement;
+    lbi.src=src; lbi.alt=cap; lbp.textContent=cap;
+    lb.classList.add('open'); document.body.style.overflow='hidden';
+    lb.querySelector('.x').focus();
+  }
+  function closeLb(){
+    lb.classList.remove('open'); document.body.style.overflow='';
+    if(lastFocus) lastFocus.focus();
+  }
+  document.querySelectorAll('[data-lb]').forEach(b=>b.addEventListener('click',()=>openLb(b.dataset.src,b.dataset.cap)));
+  lb.querySelector('.x').addEventListener('click',closeLb);
+  lb.addEventListener('click',e=>{ if(e.target===lb) closeLb(); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape' && lb.classList.contains('open')) closeLb(); });
 </script>
 <script>
   // spotlight border follow
